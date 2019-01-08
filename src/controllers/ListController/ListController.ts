@@ -12,7 +12,7 @@ const findListEntry = async (id: string) => {
 
 const getLists: RequestHandler = async (req, res) => {
   try {
-    const lists = await ListModel.find();
+    const lists = await ListModel.find().populate('purchases');
     res.json({
       lists,
     });
@@ -115,7 +115,7 @@ const removeList: RequestHandler = async (req, res) => {
   try {
     await Promise.all(list.purchases.map(purchase => purchase.remove()));
     await list.remove();
-    res.sendStatus(200);
+    res.json({});
   } catch (error) {
     console.error('list removing error', error);
     res.sendStatus(500);

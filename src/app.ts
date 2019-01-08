@@ -13,6 +13,12 @@ import passport from 'passport';
 import expressValidator from 'express-validator';
 import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './utils/secrets';
+import cors from 'cors';
+
+import { ListController } from './controllers/ListController/ListController';
+import { ListControllerValidations } from './controllers/ListController/ListControllerValidations';
+import { PurchaseControllerValidations } from './controllers/PurchaseController/PurchaseControllerValidations';
+import { PurchaseController } from './controllers/PurchaseController/PurchaseController';
 
 const MongoStore = mongo(session);
 
@@ -27,11 +33,6 @@ dotenv.config({ path: '.env.example' });
 
 // API keys and Passport configuration
 // import * as passportConfig from './config/passport';
-
-import { ListController } from './controllers/ListController/ListController';
-import { ListControllerValidations } from './controllers/ListController/ListControllerValidations';
-import { PurchaseControllerValidations } from './controllers/PurchaseController/PurchaseControllerValidations';
-import { PurchaseController } from './controllers/PurchaseController/PurchaseController';
 
 // Create Express server
 const app = express();
@@ -164,6 +165,13 @@ app.use(
 //     res.redirect(req.session.returnTo || '/');
 //   },
 // );
+
+const corsOptions = {
+  origin: 'http://localhost',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors())
 
 app.get('/lists', ListController.getLists);
 

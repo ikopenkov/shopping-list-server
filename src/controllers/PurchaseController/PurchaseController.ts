@@ -101,7 +101,7 @@ const removePurchase: RequestHandler = async (req, res) => {
 
   try {
     await purchase.remove();
-    res.sendStatus(200);
+    res.json({});
   } catch (error) {
     console.error('purchase removing error', error);
     res.sendStatus(500);
